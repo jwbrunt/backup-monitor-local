@@ -1,0 +1,16 @@
+[Unit]
+Description=Backup Monitor - Daily Backup Report with Email
+After=network.target
+
+[Service]
+Type=oneshot
+User=pasta
+Group=pasta
+WorkingDirectory=/home/pasta
+Environment=PATH=/home/pasta/miniconda3/envs/backup-monitor/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/home/pasta/miniconda3/envs/backup-monitor/bin/python -m backup_monitor.cli report
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,70 @@
+# Backup Monitor Configuration
+# Copy this file to config.yaml and customize with your settings
+
+# Local backup directories to monitor
+backup_locations:
+  - name: "Primary Backup"
+    type: "local"
+    path: "/backup"
+    description: "Main backup directory"
+    exclude_patterns:
+      - "/backup/tmp"
+      - "/backup/cache"
+      - "/backup/temp"
+    max_depth: 3
+    
+  - name: "Secondary Backup" 
+    type: "local"
+    path: "/backup1"
+    description: "Secondary backup location"
+    exclude_patterns:
+      - "/backup1/large_data"
+    max_depth: 2
+    
+  - name: "Archive Storage"
+    type: "local" 
+    path: "/backup2"
+    description: "Archive storage location"
+    exclude_patterns: []
+    max_depth: 4
+
+# Email configuration for reports
+email:
+  smtp_server: "email-smtp.us-east-1.amazonaws.com"
+  smtp_port: 587  # optional, defaults to 587 for TLS
+  smtp_user: "YOUR_SMTP_USERNAME"
+  smtp_pass: "YOUR_SMTP_PASSWORD"
+  from_address: "backup-monitor@yourdomain.com"
+  to_addresses:
+    - "admin@yourdomain.com"
+    - "backup-team@yourdomain.com"
+  subject_prefix: "Backup Monitor Report"
+  use_tls: true  # optional, defaults to true
+
+# Monitoring configuration
+monitoring:
+  max_depth: 3  # Default directory scan depth (can be overridden per location)
+  days_back: 7  # Look for files modified in last N days
+  max_dirs: 200  # Maximum directories to process for performance
+  file_size_limit_mb: 100  # Skip files larger than this for detailed analysis
+  timeout_seconds: 300  # Timeout for operations
+
+# Logging configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "backup_monitor.log"
+  max_size_mb: 10
+  backup_count: 5
+  console: true  # Also log to console
+
+# Report configuration
+reports:
+  format: "both"  # html, text, or both
+  save_local: true
+  local_directory: "./reports"
+  retention_days: 30
+  
+# Scheduling (for reference - actual scheduling done via cron/systemd)
+schedule:
+  daily_report_time: "07:00"  # 24-hour format
+  timezone: "UTC"
