@@ -28,7 +28,7 @@
 
 2. Test configuration validation:
    ```bash
-   cd /home/pasta/backup-monitor-local
+   cd /path/to/backup-monitor-local
    python3 -c "from backup_monitor.config import config_manager; print('Import OK')"
    ```
 

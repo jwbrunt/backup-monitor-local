@@ -725,7 +725,7 @@ class BackupMonitor:
         <div class="footer">
             <p><strong>🔍 Backup Monitor v2.0</strong> • Enhanced with subdirectory recency detection</p>
             <p>Report ID: {report_id} • Next scheduled report: {next_report}</p>
-            <p>Generated on space.edirepository.org • Questions? Contact your system administrator</p>
+            <p>Questions? Contact your system administrator</p>
         </div>
     </div>
 </body>

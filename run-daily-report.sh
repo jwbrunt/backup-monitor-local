@@ -1,19 +1,29 @@
 #!/bin/bash
 # Daily backup monitoring report
+# 
+# Edit the paths below to match your installation:
+#   INSTALL_DIR: where backup-monitor-local is installed
+#   CONFIG_FILE: path to your config.yaml
+#   PYTHON: path to your Python interpreter
 
 set -e
 
-cd /home/pasta/backup-monitor-local
+# Configuration - edit these paths for your environment
+INSTALL_DIR="$HOME/backup-monitor-local"
+CONFIG_FILE="$HOME/.backup-monitor/config.yaml"
+PYTHON="python3"
+
+cd "$INSTALL_DIR"
 
 # Run the backup monitor
-/home/pasta/miniconda3/bin/python3 << 'PYRUN'
+$PYTHON << PYRUN
 import sys
-sys.path.insert(0, '/home/pasta/backup-monitor-local')
+sys.path.insert(0, '$INSTALL_DIR')
 
 from backup_monitor.core.monitor import BackupMonitor
 
 try:
-    monitor = BackupMonitor('/home/pasta/.backup-monitor/config.yaml')
+    monitor = BackupMonitor('$CONFIG_FILE')
     scan_results = monitor.scan_all_locations()
     reports = monitor.generate_report(scan_results)
     success = monitor.send_email_report(reports)

@@ -1,52 +1,50 @@
-# Deployment Summary - Backup Monitor v2.0
+# Deployment Guide - Backup Monitor v2.0
 
-## ✅ What's Complete
+## Installation
 
-### Repository
-- GitHub: https://github.com/jwbrunt/backup-monitor-local
-- Version: v2.0.0
-- Status: Pushed and synced
-
-### Installation
-- Location: `/home/pasta/backup-monitor-local`
-- Config: `/home/pasta/.backup-monitor/config.yaml`
-- Logs: `/home/pasta/.backup-monitor/logs/`
-- Script: `/home/pasta/backup-monitor-local/run-daily-report.sh`
-
-### Testing
-- ✅ Config validation
-- ✅ Directory scanning
-- ✅ Report generation (HTML + Text)
-- ✅ Email delivery via AWS SES
-- ✅ Full end-to-end test passed
-
-## 🔄 Cron Job Update
-
-Replace this line in `crontab -e`:
-```
-0 7 * * * source /home/pasta/miniconda3/bin/activate backup-monitor && cd /home/pasta && /home/pasta/miniconda3/envs/backup-monitor/bin/python -m backup_monitor.cli -c .backup-monitor/config.yaml report --format html --email --save >> .backup-monitor/logs/backup_monitor_cron.log 2>&1
-```
-
-With this:
-```
-0 7 * * * /home/pasta/backup-monitor-local/run-daily-report.sh >> /home/pasta/.backup-monitor/logs/backup_monitor.log 2>&1
-```
-
-Runs daily at 7:00 AM MST
-
-## 📊 Manual Testing
-
-Test anytime with:
 ```bash
-cd /home/pasta/backup-monitor-local
-./run-daily-report.sh
+# Clone the repository
+git clone https://github.com/jwbrunt/backup-monitor-local.git
+cd backup-monitor-local
+
+# Install with pip
+pip install -e .
+
+# Or install dependencies only
+pip install pyyaml jinja2 click python-dateutil tabulate colorama
 ```
 
-## 🗂️ Old Versions
+## Configuration
 
-- Bash version: https://github.com/jwbrunt/backup-monitor (unchanged)
-- SSH Python version: `/home/pasta/backup-monitor-current` (can be archived)
+1. Create config directory:
+```bash
+mkdir -p ~/.backup-monitor/logs
+```
 
-## 🎉 Done!
+2. Copy and edit the example config:
+```bash
+cp config.example.yaml ~/.backup-monitor/config.yaml
+# Edit with your paths and email settings
+```
 
-The simplified local-only backup monitor is production-ready!
+## Usage
+
+### Manual Run
+```bash
+backup-monitor -c ~/.backup-monitor/config.yaml report --format html --email
+```
+
+### Cron Job (Daily at 7 AM)
+```bash
+crontab -e
+# Add:
+0 7 * * * /path/to/backup-monitor-local/run-daily-report.sh >> ~/.backup-monitor/logs/backup_monitor.log 2>&1
+```
+
+## Features
+
+- ✅ Multi-directory backup monitoring
+- ✅ HTML and text report generation
+- ✅ Email delivery (SMTP or sendEmail)
+- ✅ Configurable staleness thresholds
+- ✅ Subdirectory recency detection
