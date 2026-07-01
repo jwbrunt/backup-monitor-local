@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "backup-monitor"
+version = "2.0.0"
+description = "A comprehensive backup monitoring system with multi-directory support"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "Jinja2>=3.0.0",
+    "click>=8.0.0",
+    "python-dateutil>=2.8.0",
+    "tabulate>=0.9.0",
+    "colorama>=0.4.4",
+]
+
+[project.scripts]
+backup-monitor = "backup_monitor.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/jwbrunt/backup-monitor-local"
+Repository = "https://github.com/jwbrunt/backup-monitor-local"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.setuptools.package-data]
+backup_monitor = ["templates/*.html", "templates/*.txt"]
